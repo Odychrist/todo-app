@@ -6,7 +6,7 @@ import UpdatePage from "./pages/UpdatePage";
 
 const App = () => {
   return (
-    <div className="bg-gradient-to-tr from-slate-800 to-cyan-700">
+    <div className="bg-gradient-to-tr from-slate-800 to-cyan-700 min-h-screen">
       <title>Todo App</title>
       <Routes>
         <Route index element={<HomePage />}></Route>

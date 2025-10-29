@@ -33,7 +33,7 @@ const HomePage = () => {
   }, [state]);
 
   return (
-    <div className="h-screen w-full">
+    <div className="">
       <Navbar setState={setState} />
       {rateLimited && <RateLimiter />}
       {loading ? (

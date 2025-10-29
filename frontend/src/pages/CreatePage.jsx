@@ -47,14 +47,14 @@ const CreatePage = () => {
 
   return (
     <div className="h-screen flex justify-center items-center font-serif flex-col">
-      <div className="flex justify-start w-[370px]">
+      <div className="flex justify-start w-[290px] sm:w-[370px]">
         <Link to={"/"} className="flex text-slate-200 p-2 rounded-lg gap-1 ">
           {" "}
           <ArrowLeft></ArrowLeft>Back to Tasks
         </Link>
       </div>
 
-      <div className="flex items-center flex-col justify-center p-6 bg-slate-800 rounded-xl border-[1px] border-cyan-500 text-cyan-600 shadow-md shadow-cyan-600">
+      <div className="flex w-[290px] sm:w-[370px] items-center flex-col justify-center p-4 bg-slate-800 rounded-xl border-[1px] border-cyan-500 text-cyan-600 shadow-md shadow-cyan-600">
         <h2 className="text-3xl font-extrabold sm:text-5xl">Create Task</h2>
         <p className="text-xl font-semibold mb-4 sm:text-2xl text-slate-400">
           Create a new task
@@ -71,7 +71,7 @@ const CreatePage = () => {
                 setTitle(e.target.value);
               }}
               placeholder="Task title"
-              className="border-1 border-cyan-600 p-2 rounded-xl text-slate-400 text-sm sm:text-lg outline-0 w-[300px]  focus:border-[3px] focus:border-cyan-600"
+              className="border-1 border-cyan-600 p-2 rounded-xl text-slate-400 text-sm sm:text-lg outline-0 w-[220px] sm:w-[300px] focus:border-[3px] focus:border-cyan-600"
             />
           </div>
           <div className="flex flex-col gap-1 mb-4">
