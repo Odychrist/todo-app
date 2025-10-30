@@ -3,9 +3,11 @@ import ENV from "./config/env.js";
 import cors from "cors";
 import connectToDatabase from "./database/mongodb.js";
 import taskRoute from "./routes/task.routes.js";
-import { rateLimiterMiddleware } from "./middleware/rateLimiter.js";
+import { rateLimiterMiddleware } from "./middlewares/rateLimiter.js";
 import path from "path";
-// import { fileURLToPath } from "url";
+import authRoute from "./routes/auth.routes.js";
+import authorize from "./middlewares/auth.middleware.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const { NODE_ENV, PORT } = ENV;
@@ -21,10 +23,12 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(rateLimiterMiddleware);
+app.use(cookieParser());
+// app.use(rateLimiterMiddleware);
 
 // Routes
-app.use("/api/tasks", taskRoute);
+app.use("/api/tasks", authorize, taskRoute);
+app.use("/api/auth", authRoute);
 
 // En production, servir les fichiers React buildés
 if (NODE_ENV === "production") {

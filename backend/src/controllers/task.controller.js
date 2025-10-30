@@ -1,8 +1,9 @@
 import Tasks from "../models/task.model.js";
 
 export const getAllTasks = async (req, res) => {
+  const author = req.user.userId;
   try {
-    const tasks = await Tasks.find().sort({ createdAt: -1 });
+    const tasks = await Tasks.find({ author }).sort({ createdAt: -1 });
     res.status(200).json(tasks);
   } catch (error) {
     console.error("Error in getAllTasks controller", error);
@@ -11,8 +12,9 @@ export const getAllTasks = async (req, res) => {
 };
 
 export const getOpenTasks = async (req, res) => {
+  const author = req.user.userId;
   try {
-    const openTasks = await Tasks.find({ complete: false }).sort({
+    const openTasks = await Tasks.find({ author, complete: false }).sort({
       createdAt: -1,
     });
     res.status(200).json(openTasks);
@@ -23,8 +25,9 @@ export const getOpenTasks = async (req, res) => {
 };
 
 export const getCompleteTasks = async (req, res) => {
+  const author = req.user.userId;
   try {
-    const completeTasks = await Tasks.find({ complete: true }).sort({
+    const completeTasks = await Tasks.find({ author, complete: true }).sort({
       createdAt: -1,
     });
     res.status(200).json(completeTasks);
@@ -51,7 +54,8 @@ export const getTaskById = async (req, res) => {
 export const createTask = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const task = new Tasks({ title, description });
+    const author = req.user.userId;
+    const task = new Tasks({ title, description, author });
     const savedTask = await task.save();
     res.status(201).json(savedTask);
   } catch (error) {
@@ -63,9 +67,10 @@ export const createTask = async (req, res) => {
 export const updateTask = async (req, res) => {
   try {
     const { title, description, complete } = req.body;
+    const author = req.user.userId;
     const updatedTask = await Tasks.findByIdAndUpdate(
       req.params.id,
-      { title, description, complete },
+      { title, description, complete, author },
       { new: true }
     );
     if (!updatedTask) {
