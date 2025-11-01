@@ -26,6 +26,7 @@ const LoginPage = () => {
       const valid = /\S+@\S+\.\S+/.test(email);
       if (!valid) {
         toast.error("Fill a valid email adress");
+        return;
       }
 
       if (password.length < 6) {
@@ -159,8 +160,8 @@ const LoginPage = () => {
             disabled={loading}
             className="bg-cyan-400 px-4 py-2 text-slate-950 rounded-xl text-sm sm:text-lg mt-4 w-full cursor-pointer hover:bg-cyan-500"
           >
-            {state === "Sign Up" && (loading ? "Signing up" : "Sign Up")}
-            {state !== "Sign Up" && (loading ? "Connecting" : "Login")}
+            {state === "Sign Up" && (loading ? "Signing up..." : "Sign Up")}
+            {state !== "Sign Up" && (loading ? "Connecting..." : "Login")}
           </button>
         </form>
 
