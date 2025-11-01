@@ -3,7 +3,7 @@ import ENV from "../config/env.js";
 
 const { JWT_SECRET } = ENV;
 
-/* const authorize = async (req, res, next) => {
+const authorize = async (req, res, next) => {
   const { token } = req.cookies;
 
   if (!token) {
@@ -26,9 +26,9 @@ const { JWT_SECRET } = ENV;
     console.error("Error in authorize middleware", error);
     return res.status(500).json({ success: "Internal server error" });
   }
-}; */
+};
 
-const authorize = async (req, res, next) => {
+/* const authorize = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -46,5 +46,5 @@ const authorize = async (req, res, next) => {
     console.error("Error in authorize middleware", error);
     return res.status(500).json({ success: "Internal server error" });
   }
-};
+}; */
 export default authorize;

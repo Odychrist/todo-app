@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcrypt";
 import ENV from "../config/env.js";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const { NODE_ENV, JWT_EXPIRES_IN, JWT_SECRET } = ENV;
 
@@ -38,10 +38,10 @@ export const register = async (req, res) => {
     const newUser = await user.save({ session });
 
     // Passer le token d'inscription
-    // generateTokenAndSetCookie(res, newUser._id);
-    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
+    generateTokenAndSetCookie(res, newUser._id);
+    /* const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
-    });
+    }); */
 
     // Prendre l'utilisateur sans le mot de passe
     const renderUser = newUser.toObject();
@@ -56,7 +56,6 @@ export const register = async (req, res) => {
       message: "User created successfully",
       data: {
         renderUser,
-        token,
       },
     });
   } catch (error) {
@@ -91,13 +90,13 @@ export const login = async (req, res) => {
         .json({ success: false, message: "Invalid password" });
     }
 
-    // generateTokenAndSetCookie(res, user._id);
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    generateTokenAndSetCookie(res, user._id);
+    /* const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
-    });
+    }); */
     return res
       .status(200)
-      .json({ success: true, message: "User connected successfully", token });
+      .json({ success: true, message: "User connected successfully" });
   } catch (error) {
     console.error("Error in login controller", error);
     return res

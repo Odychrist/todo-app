@@ -27,11 +27,11 @@ const CreatePage = () => {
         description,
       });
       toast.success("Task created successfully");
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.log("Error creating task", error);
       toast.error("Failed to create task");
-      navigate("/");
+      navigate("/home");
       if (error.response.status === 429) {
         toast.error("Too many requests. Retry later", {
           duration: 4000,
