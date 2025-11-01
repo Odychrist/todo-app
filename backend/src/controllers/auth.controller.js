@@ -62,9 +62,7 @@ export const register = async (req, res) => {
     await session.abortTransaction();
     session.endSession();
     console.error("Error in register controller", error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
