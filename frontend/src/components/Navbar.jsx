@@ -7,8 +7,8 @@ const Navbar = (props) => {
 
   return (
     <>
-      <header className="flex items-center justify-between bg-slate-900 text-cyan-600 px-3 sm:px-6 py-4 font-serif">
-        <h1 className="text-[17px] sm:text-2xl font-bold text-cyan-500 xs:text-xs">
+      <header className="flex items-center justify-between bg-slate-900 text-cyan-600 px-3 sm:px-6 py-4 font-serif ">
+        <h1 className="text-[17px] hidden sm:text-2xl font-bold text-cyan-500 xs:text-xs sm:block">
           Todo App
         </h1>
         <div className="flex items-center justify-center gap-1 text-[10px] sm:text-sm md:text-lg text-cyan-400 font-bold">
@@ -37,7 +37,7 @@ const Navbar = (props) => {
         </div>
         <div>
           <Link to={"/create"}>
-            <button className="flex align-center justify-center gap-1 bg-cyan-600 rounded-full text-xs sm:text-lg p-2 sm:p-3 text-slate-200 font-semibold shadow-sm shadow-blue-400 cursor-pointer hover:bg-cyan-700">
+            <button className="flex align-center justify-center gap-1 bg-cyan-600 rounded-full text-xs sm:text-lg p-2 sm:p-3 text-slate-200 font-semibold shadow-sm shadow-slate-700 cursor-pointer hover:bg-cyan-700">
               <PlusIcon className="size-4 sm:size-7"></PlusIcon> New Task
             </button>
           </Link>

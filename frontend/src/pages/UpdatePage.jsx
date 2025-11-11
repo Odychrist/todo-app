@@ -50,7 +50,10 @@ const UpdatePage = () => {
     <div>
       <div className="h-screen flex justify-center items-center font-serif flex-col">
         <div className="flex justify-start w-[290px] sm:w-[370px]">
-          <Link to={"/"} className="flex text-slate-200 p-2 rounded-lg gap-1 ">
+          <Link
+            to={"/home"}
+            className="flex text-slate-200 p-2 rounded-lg gap-1 "
+          >
             {" "}
             <ArrowLeft></ArrowLeft>Back to Tasks
           </Link>
