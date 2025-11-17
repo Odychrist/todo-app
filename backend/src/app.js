@@ -3,7 +3,7 @@ import ENV from "./config/env.js";
 import cors from "cors";
 import connectToDatabase from "./database/mongodb.js";
 import taskRoute from "./routes/task.routes.js";
-import { rateLimiterMiddleware } from "./middlewares/rateLimiter.js";
+import apiRateLimiter from "./middlewares/rateLimiter.js";
 import path from "path";
 import authRoute from "./routes/auth.routes.js";
 import authorize from "./middlewares/auth.middleware.js";
@@ -25,7 +25,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-// app.use(rateLimiterMiddleware);
+app.use("/api", authorize, apiRateLimiter);
 
 // Routes
 app.use("/api/tasks", authorize, taskRoute);

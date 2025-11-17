@@ -1,14 +1,18 @@
 import React from "react";
 import { PlusIcon } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Navbar = (props) => {
   const setState = props.setState;
+  const navigate = useNavigate();
 
   return (
     <>
       <header className="flex items-center justify-between bg-slate-900 text-cyan-600 px-3 sm:px-6 py-4 font-serif ">
-        <h1 className="text-[17px] hidden sm:text-2xl font-bold text-cyan-500 xs:text-xs sm:block">
+        <h1
+          onClick={() => navigate("/")}
+          className="text-[17px] hidden sm:text-2xl font-bold text-cyan-500 xs:text-xs sm:block cursor-pointer"
+        >
           Todo App
         </h1>
         <div className="flex items-center justify-center gap-1 text-[10px] sm:text-sm md:text-lg text-cyan-400 font-bold">

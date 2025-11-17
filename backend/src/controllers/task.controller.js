@@ -4,10 +4,12 @@ export const getAllTasks = async (req, res) => {
   const author = req.user.userId;
   try {
     const tasks = await Tasks.find({ author }).sort({ createdAt: -1 });
-    res.status(200).json(tasks);
+    return res.status(200).json(tasks);
   } catch (error) {
     console.error("Error in getAllTasks controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -17,10 +19,12 @@ export const getOpenTasks = async (req, res) => {
     const openTasks = await Tasks.find({ author, complete: false }).sort({
       createdAt: -1,
     });
-    res.status(200).json(openTasks);
+    return res.status(200).json(openTasks);
   } catch (error) {
     console.error("Error in getOpenTasks controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -30,10 +34,12 @@ export const getCompleteTasks = async (req, res) => {
     const completeTasks = await Tasks.find({ author, complete: true }).sort({
       createdAt: -1,
     });
-    res.status(200).json(completeTasks);
+    return res.status(200).json(completeTasks);
   } catch (error) {
     console.error("Error in getCompleteTasks controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -44,29 +50,45 @@ export const getTaskById = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "Task not found" });
-    res.status(200).json(task);
+    return res.status(200).json(task);
   } catch (error) {
     console.error("Error in getTaskById controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
 export const createTask = async (req, res) => {
   try {
     const { title, description } = req.body;
+    if (!title || !description) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
     const author = req.user.userId;
     const task = new Tasks({ title, description, author });
     const savedTask = await task.save();
-    res.status(201).json(savedTask);
+    return res
+      .status(201)
+      .json({ success: true, message: "Task created successfully" });
   } catch (error) {
     console.error("Error in createTask controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
 export const updateTask = async (req, res) => {
   try {
     const { title, description, complete } = req.body;
+    if (!title || !description) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
     const author = req.user.userId;
     const updatedTask = await Tasks.findByIdAndUpdate(
       req.params.id,
@@ -79,10 +101,14 @@ export const updateTask = async (req, res) => {
         .json({ success: false, message: "Task not found" });
     }
 
-    res.status(200).json(updatedTask);
+    return res
+      .status(200)
+      .json({ success: true, message: "Task updated successfully" });
   } catch (error) {
     console.error("Error in updateTask controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -94,11 +120,13 @@ export const deleteTask = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Task not found" });
     }
-    res
+    return res
       .status(200)
       .json({ success: true, message: "Task deleted successfully" });
   } catch (error) {
     console.error("Error in deleteTask controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };

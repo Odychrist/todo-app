@@ -1,33 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
-import api from "../lib/axios.js";
-import { toast } from "react-hot-toast";
+// import api from "../lib/axios.js";
+// import { toast } from "react-hot-toast";
 import RateLimiter from "../components/RateLimiter.jsx";
-import TaskCard from "../components/TaskCard";
+import TaskCard from "../components/TaskCard.jsx";
+import { useContext } from "react";
+import { AppContent } from "../context/AppContext.jsx";
 
 const HomePage = () => {
-  const [state, setState] = useState("all");
-  const [tasks, setTasks] = useState([]);
-  const [rateLimited, setRateLimited] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { state, fetchTasks, setState, rateLimited, loading } =
+    useContext(AppContent);
 
-  const fetchTasks = async () => {
-    setLoading(true);
-    try {
-      const response = await api.get(`/tasks/${state}`);
-      setTasks(response.data);
-    } catch (error) {
-      console.log("Error loading tasks", error);
-      if (error.response.status === 429) {
-        setRateLimited(true);
-      } else {
-        toast.error("Failed to load tasks");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchTasks();
   }, [state]);
@@ -43,12 +27,7 @@ const HomePage = () => {
           </p>
         </div>
       ) : (
-        <TaskCard
-          tasks={tasks}
-          rateLimited={rateLimited}
-          state={state}
-          fetchTasks={fetchTasks}
-        />
+        <TaskCard />
       )}
     </div>
   );

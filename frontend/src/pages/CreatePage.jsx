@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "react-hot-toast";
 import api from "../lib/axios.js";
-// import axios from "axios";
 
 const CreatePage = () => {
   const [title, setTitle] = useState("");
@@ -15,30 +14,33 @@ const CreatePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !description.trim()) {
+    /* if (!title.trim() || !description.trim()) {
       toast.error("All fields are required");
       return;
-    }
+    } */
 
     setLoading(true);
     try {
-      await api.post("/tasks/create/", {
+      const { data } = await api.post("/tasks/create/", {
         title,
         description,
       });
-      toast.success("Task created successfully");
-      navigate("/home");
+
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/home");
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
-      console.log("Error creating task", error);
-      toast.error("Failed to create task");
-      navigate("/home");
+      // console.log("Error creating task", error);
       if (error.response.status === 429) {
         toast.error("Too many requests. Retry later", {
           duration: 4000,
           icon: "💀",
         });
       } else {
-        toast.error("Failed to create task");
+        toast.error(error.response.data.message);
       }
     } finally {
       setLoading(false);

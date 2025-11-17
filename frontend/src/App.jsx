@@ -5,6 +5,7 @@ import CreatePage from "./pages/CreatePage";
 import UpdatePage from "./pages/UpdatePage";
 import FirstPage from "./auth/FirstPage";
 import LoginPage from "./auth/LoginPage";
+import TaskPage from "./pages/TaskPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="home" element={<HomePage />}></Route>
         <Route path="/create" element={<CreatePage />}></Route>
         <Route path="/update/:id" element={<UpdatePage />}></Route>
+        <Route path="/task/:id" element={<TaskPage />}></Route>
       </Routes>
     </div>
   );

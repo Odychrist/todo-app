@@ -17,13 +17,13 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (state === "Sign Up") {
-      if (!name.trim() || !email.trim() || !password.trim()) {
+      /* if (!name.trim() || !email.trim() || !password.trim()) {
         toast.error("All fields are required");
         return;
       }
-
+ */
       // Validité de l'adresse email
-      const valid = /\S+@\S+\.\S+/.test(email);
+      /* const valid = /\S+@\S+\.\S+/.test(email);
       if (!valid) {
         toast.error("Fill a valid email adress");
         return;
@@ -32,13 +32,21 @@ const LoginPage = () => {
       if (password.length < 6) {
         toast.error("Password must be at least 6 characters long.");
         return;
-      }
+      } */
       setLoading(true);
 
       try {
-        await api.post("/auth/register", { name, email, password });
-        toast.success("Successfully registered");
-        navigate("/home");
+        const { data } = await api.post("/auth/register", {
+          name,
+          email,
+          password,
+        });
+        if (data.success) {
+          toast.success(data.message);
+          navigate("/home");
+        } else {
+          toast.error(data.message);
+        }
       } catch (error) {
         console.log("Error signing up", error);
         toast.error(error.response.data.message);
@@ -48,18 +56,23 @@ const LoginPage = () => {
     }
 
     if (state === "Login") {
-      if (!email.trim() || !password.trim()) {
+      /* if (!email.trim() || !password.trim()) {
         toast.error("All fields are required");
         return;
-      }
+      } */
 
       setLoading(true);
       try {
-        await api.post("/auth/login", { email, password });
-        toast.success("Connected successfully");
-        navigate("/home");
+        const { data } = await api.post("/auth/login", { email, password });
+        if (data.success) {
+          toast.success("Connected successfully");
+          navigate("/home");
+        } else {
+          toast.error(data.message);
+          navigate("/");
+        }
       } catch (error) {
-        console.log("Error connecting", error);
+        // console.log("Error connecting", error);
         toast.error(error.response.data.message);
       } finally {
         setLoading(false);
@@ -68,7 +81,10 @@ const LoginPage = () => {
   };
   return (
     <div className="flex flex-col items-center min-h-screen p-4">
-      <h1 className="text-cyan-400 text-2xl sm:text-4xl font-extrabold absolute left-4 sm:left-6">
+      <h1
+        onClick={() => navigate("/")}
+        className="text-cyan-400 text-2xl sm:text-4xl font-extrabold absolute left-4 sm:left-6 cursor-pointer"
+      >
         Todo App
       </h1>
       <div className="flex flex-col items-center text-cyan-500 bg-slate-800 shadow-md shadow-slate-900 p-4 mt-20 rounded-lg">

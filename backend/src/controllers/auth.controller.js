@@ -53,7 +53,7 @@ export const register = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "User created successfully",
+      message: "Registered successfully",
       data: {
         renderUser,
       },
@@ -94,7 +94,7 @@ export const login = async (req, res) => {
     }); */
     return res
       .status(200)
-      .json({ success: true, message: "User connected successfully" });
+      .json({ success: true, message: "Connected successfully" });
   } catch (error) {
     console.error("Error in login controller", error);
     return res

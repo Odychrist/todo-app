@@ -9,6 +9,7 @@ const generateTokenAndSetCookie = (res, id) => {
     expiresIn: JWT_EXPIRES_IN,
   });
 
+  // console.log(token);
   // Passer le token comme cookies
   res.cookie("token", token, {
     httpOnly: true,
