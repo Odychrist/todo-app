@@ -37,7 +37,7 @@ const UpdatePage = () => {
     try {
       await api.put(`/tasks/${id}`, newTask);
       toast.success("Task updated successfully");
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.log("Error updating task", error);
       toast.error("Failed to update task");
