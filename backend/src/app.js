@@ -25,7 +25,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api", authorize, apiRateLimiter);
+// app.use("/api", authorize, apiRateLimiter);
 
 // Routes
 app.use("/api/tasks", authorize, taskRoute);
