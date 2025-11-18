@@ -1,13 +1,29 @@
-import rateLimit, { ipKeyGenerator } from "express-rate-limit";
+import rateLimit from "express-rate-limit";
+import { ip as getIp } from "address";
 
-// Crée le middleware **une seule fois**
-const apiRateLimiter = rateLimit({
+const ipKeyGenerator = (req) => {
+  return (
+    req.ip ||
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.connection.remoteAddress ||
+    "unknown"
+  );
+};
+
+// Limite pour les routes d'auth
+export const authLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 60,
-  keyGenerator: (req) => req.user?.userId || ipKeyGenerator(req),
-  message: "Too many requests. Please try again in a few seconds 🚫",
-  standardHeaders: true,
-  legacyHeaders: false,
+  max: 5, // 5 tentatives par minute
+  message: "Too many attempts. Please wait a moment.",
+  keyGenerator: ipKeyGenerator,
 });
 
-export default apiRateLimiter;
+// Limite pour les opérations utilisateur
+export const userLimiter = rateLimit({
+  windowMs: 10 * 1000, // 10 secondes
+  max: 10, // 10 actions par 10s
+  message: "Too many requests. Slow down.",
+  keyGenerator: (req) => {
+    return req.user?.userId || ipKeyGenerator(req);
+  },
+});
