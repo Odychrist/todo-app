@@ -34,10 +34,10 @@ const TaskPage = () => {
   };
   useEffect(() => {
     fetchTask();
-  }, [id, deleting, done]);
+  }, [id, done]);
 
   return (
-    <>
+    <div className="min-h-screen">
       {loading ? (
         <div className="flex items-center justify-center mt-24">
           <p className="text-2xl text-slate-100 sm:text-3xl font-serif font-extrabold text-shadow-md text-shadow-cyan-400 p-2">
@@ -102,7 +102,7 @@ const TaskPage = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
