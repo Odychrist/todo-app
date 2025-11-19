@@ -13,7 +13,7 @@ const ipKeyGenerator = (req) => {
 // Limite pour les routes d'auth
 export const authLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 5, // 5 tentatives par minute
+  max: 40, // 5 tentatives par minute
   message: "Too many attempts. Please wait a moment.",
   keyGenerator: ipKeyGenerator,
 });
