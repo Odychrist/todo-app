@@ -9,33 +9,32 @@ import api from "../lib/axios.js";
 
 const TaskPage = () => {
   const navigate = useNavigate();
-  const { handleDelete, handleDone, handleUpdate, deleting } =
+  const { handleDelete, handleDone, handleUpdate, deleting, done } =
     useContext(AppContent);
   const [task, setTask] = useState({});
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchTask = async () => {
-      setLoading(true);
-      try {
-        const { data } = await api.get(`/tasks/task/${id}`);
-        // console.log(data);
-        setTask(data);
-      } catch (error) {
-        // console.log("Error fetching task", error);
-        if (error.response.status === 429) {
-          toast.error("Too many requests. Retry later");
-        } else {
-          toast.error("Failed to fetch task");
-        }
-      } finally {
-        setLoading(false);
+  const fetchTask = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get(`/tasks/task/${id}`);
+      // console.log(data);
+      setTask(data);
+    } catch (error) {
+      // console.log("Error fetching task", error);
+      if (error.response.status === 429) {
+        toast.error("Too many requests. Retry later");
+      } else {
+        toast.error("Failed to fetch task");
       }
-    };
-
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchTask();
-  }, [id, deleting]);
+  }, [id, deleting, done]);
 
   return (
     <>
@@ -75,11 +74,12 @@ const TaskPage = () => {
                 <button
                   disabled={task.complete}
                   className="bg-green-800 rounded-lg py-1 px-2 cursor-pointer hover:bg-green-900"
-                  onClick={() =>
-                    handleDone(task._id, task.title, task.description)
-                  }
+                  onClick={() => {
+                    handleDone(task._id, task.title, task.description);
+                    // fetchTasks();
+                  }}
                 >
-                  Done
+                  {done === task._id ? "Done..." : "Done"}
                 </button>
                 <button
                   onClick={() => handleUpdate(task._id)}
