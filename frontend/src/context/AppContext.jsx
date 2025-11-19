@@ -12,7 +12,6 @@ export const AppContextProvider = (props) => {
   const [rateLimited, setRateLimited] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(null);
-  // const [doing, setDoing] = useState({});
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this task?")) return;
@@ -47,7 +46,6 @@ export const AppContextProvider = (props) => {
       });
       if (data.success) {
         toast.success("Task done successfully");
-        // setDoing({ done: true, id: id });
         fetchTasks();
       } else {
         toast.error(data.message);

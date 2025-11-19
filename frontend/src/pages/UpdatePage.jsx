@@ -1,15 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "react-hot-toast";
 import api from "../lib/axios";
-import { AppContent } from "../context/AppContext";
 
 const UpdatePage = () => {
   const [loading, setLoading] = useState(false);
   const [newTask, setNewTask] = useState({});
 
-  const { setDoing } = useContext(AppContent);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -40,23 +38,18 @@ const UpdatePage = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    /* if (!newTask.title.trim() || !newTask.description.trim()) {
-      toast.error("All fields are required");
-      return;
-    } */
     newTask.complete = false;
     setLoading(true);
     try {
       const { data } = await api.put(`/tasks/${id}`, newTask);
       if (data.success) {
         toast.success(data.message);
-        setDoing({ done: false, id: id });
         navigate("/home");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      console.log("Error updating task", error);
+      // console.log("Error updating task", error);
       if (error.response.status === 429) {
         toast.error("Too many requests. Retry later", {
           duration: 4000,
@@ -64,7 +57,6 @@ const UpdatePage = () => {
         });
       } else {
         toast.error("Failed to update task");
-        // navigate("/home");
       }
     } finally {
       setLoading(false);

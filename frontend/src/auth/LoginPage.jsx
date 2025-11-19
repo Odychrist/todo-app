@@ -3,7 +3,6 @@ import { User, Mail, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../lib/axios";
 import { useNavigate } from "react-router";
-// import axios from "axios";
 
 const LoginPage = () => {
   const [state, setState] = useState("Login");
@@ -17,22 +16,6 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (state === "Sign Up") {
-      /* if (!name.trim() || !email.trim() || !password.trim()) {
-        toast.error("All fields are required");
-        return;
-      }
- */
-      // Validité de l'adresse email
-      /* const valid = /\S+@\S+\.\S+/.test(email);
-      if (!valid) {
-        toast.error("Fill a valid email adress");
-        return;
-      }
-
-      if (password.length < 6) {
-        toast.error("Password must be at least 6 characters long.");
-        return;
-      } */
       setLoading(true);
 
       try {
@@ -48,19 +31,21 @@ const LoginPage = () => {
           toast.error(data.message);
         }
       } catch (error) {
-        console.log("Error signing up", error);
-        toast.error(error.response.data.message);
+        // console.log("Error signing up", error);
+        if (error.response.status === 429) {
+          toast.error("Too many requests. Retry later", {
+            duration: 4000,
+            icon: "💀",
+          });
+        } else {
+          toast.error(error.response.data.message);
+        }
       } finally {
         setLoading(false);
       }
     }
 
     if (state === "Login") {
-      /* if (!email.trim() || !password.trim()) {
-        toast.error("All fields are required");
-        return;
-      } */
-
       setLoading(true);
       try {
         const { data } = await api.post("/auth/login", { email, password });
@@ -73,7 +58,14 @@ const LoginPage = () => {
         }
       } catch (error) {
         // console.log("Error connecting", error);
-        toast.error(error.response.data.message);
+        if (error.response.status === 429) {
+          toast.error("Too many requests. Retry later", {
+            duration: 4000,
+            icon: "💀",
+          });
+        } else {
+          toast.error(error.response.data.message);
+        }
       } finally {
         setLoading(false);
       }
