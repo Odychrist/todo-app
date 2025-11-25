@@ -122,7 +122,7 @@ const LoginPage = () => {
                 <div className="flex gap-1 bg-cyan-700 rounded-full p-2 items-center">
                   <Lock className="text-slate-700 size-5"></Lock>
                   <input
-                    type="text"
+                    type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
@@ -152,7 +152,7 @@ const LoginPage = () => {
                 <div className="flex gap-1 bg-cyan-700 rounded-full p-2 items-center">
                   <Lock className="text-slate-700 size-5"></Lock>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
