@@ -122,3 +122,14 @@ export const logout = async (req, res) => {
       .json({ success: false, message: "Internal server error" });
   }
 };
+
+export const isAccountVerified = async (req, res) => {
+  try {
+    return res.status(200).json({ success: true, message: "Authorized" });
+  } catch (error) {
+    console.error("Error in isAccountVerified controller", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
+  }
+};

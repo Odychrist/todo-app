@@ -8,12 +8,13 @@ import { useContext } from "react";
 import { AppContent } from "../context/AppContext.jsx";
 
 const HomePage = () => {
-  const { state, fetchTasks, setState, rateLimited, loading } =
+  const { state, fetchTasks, setState, rateLimited, loading, getUserData } =
     useContext(AppContent);
 
   // const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchTasks();
+    getUserData();
   }, [state]);
 
   return (

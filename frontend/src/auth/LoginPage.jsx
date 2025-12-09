@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { User, Mail, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../lib/axios";
 import { useNavigate } from "react-router";
+import { AppContent } from "../context/AppContext";
 
 const LoginPage = () => {
-  const [state, setState] = useState("Login");
+  const { loginState, setLoginState } = useContext(AppContent);
+  // const [state, setState] = useState("Login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +17,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (state === "Sign Up") {
+    if (loginState === "Sign Up") {
       setLoading(true);
 
       try {
@@ -26,7 +28,7 @@ const LoginPage = () => {
         });
         if (data.success) {
           toast.success(data.message);
-          navigate("/home");
+          navigate("/");
         } else {
           toast.error(data.message);
         }
@@ -45,19 +47,20 @@ const LoginPage = () => {
       }
     }
 
-    if (state === "Login") {
+    if (loginState === "Login") {
       setLoading(true);
       try {
         const { data } = await api.post("/auth/login", { email, password });
         if (data.success) {
           toast.success("Connected successfully");
-          navigate("/home");
+          navigate("/");
         } else {
+          console.log(data);
           toast.error(data.message);
           navigate("/");
         }
       } catch (error) {
-        // console.log("Error connecting", error);
+        console.log("Error connecting", error);
         if (error.response.status === 429) {
           toast.error("Too many requests. Retry later", {
             duration: 4000,
@@ -80,14 +83,16 @@ const LoginPage = () => {
         Todo App
       </h1>
       <div className="flex flex-col items-center text-cyan-500 bg-slate-800 shadow-md shadow-slate-900 p-4 mt-20 rounded-lg">
-        <h1 className="text-xl sm:text-3xl font-bold text-cyan-400">{state}</h1>
+        <h1 className="text-xl sm:text-3xl font-bold text-cyan-400">
+          {loginState}
+        </h1>
         <p className="mt-2 sm:text-lg mb-2">
-          {state === "Sign Up"
+          {loginState === "Sign Up"
             ? "Create your account"
             : "Login to your account"}
         </p>
         <form onSubmit={handleSubmit}>
-          {state === "Sign Up" ? (
+          {loginState === "Sign Up" ? (
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
                 <p className="text-sm sm:text-lg">Name</p>
@@ -168,24 +173,27 @@ const LoginPage = () => {
             disabled={loading}
             className="bg-cyan-400 px-4 py-2 text-slate-950 rounded-xl text-sm sm:text-lg mt-4 w-full cursor-pointer hover:bg-cyan-500"
           >
-            {state === "Sign Up" && (loading ? "Signing up..." : "Sign Up")}
-            {state !== "Sign Up" && (loading ? "Connecting..." : "Login")}
+            {loginState === "Sign Up" &&
+              (loading ? "Signing up..." : "Sign Up")}
+            {loginState !== "Sign Up" && (loading ? "Connecting..." : "Login")}
           </button>
         </form>
 
         <div className="flex flex-col items-center justify-center px-8 py-2 text-sm sm:text-lg mt-6 rounded-xl border-[1px] shadow-md shadow-cyan-500">
           <p className="text-sm sm:text-lg">
-            {state === "Sign Up"
+            {loginState === "Sign Up"
               ? "Already have an account ?"
               : "Don't have an account ?"}
           </p>
           <span
             onClick={() => {
-              state === "Sign Up" ? setState("Login") : setState("Sign Up");
+              loginState === "Sign Up"
+                ? setLoginState("Login")
+                : setLoginState("Sign Up");
             }}
             className="text-sm sm:text-lg underline cursor-pointer text-cyan-400 hover:text-cyan-600"
           >
-            {state === "Sign Up" ? "Login" : "Sign Up"}
+            {loginState === "Sign Up" ? "Login" : "Sign Up"}
           </span>
         </div>
       </div>

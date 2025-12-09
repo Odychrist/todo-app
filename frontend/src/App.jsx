@@ -6,6 +6,7 @@ import UpdatePage from "./pages/UpdatePage";
 import FirstPage from "./auth/FirstPage";
 import LoginPage from "./auth/LoginPage";
 import TaskPage from "./pages/TaskPage";
+// import ProtectedRoute from "./lib/ProtectedRoute";
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
       <Routes>
         <Route index element={<FirstPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="home" element={<HomePage />}></Route>
+        <Route path="/home" element={<HomePage />}></Route>
         <Route path="/create" element={<CreatePage />}></Route>
         <Route path="/update/:id" element={<UpdatePage />}></Route>
         <Route path="/task/:id" element={<TaskPage />}></Route>
